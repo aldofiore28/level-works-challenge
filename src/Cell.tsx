@@ -1,5 +1,5 @@
-import "./Cell.css";
 import { useEffect, useState } from "react";
+import "./Cell.css";
 
 type CellProps = {
   x: number;
@@ -10,7 +10,7 @@ type CellProps = {
 }
 
 function Cell({ x, y, value, increaseValue, fill }: CellProps) {
-  const [backgroundColor, setBackgroundColor] = useState<string>('');
+  const [backgroundColor, setBackgroundColor] = useState<string>("");
   const increaseCellValue = () => {
     increaseValue(x, y);
   };
@@ -19,10 +19,10 @@ function Cell({ x, y, value, increaseValue, fill }: CellProps) {
     let ignore = false;
     
     if (fill && !ignore) {
-      setBackgroundColor('yellow');
+      setBackgroundColor("yellow");
       
       const timer = setTimeout(() => {
-        setBackgroundColor('');
+        setBackgroundColor("");
       }, 1000);
       
       return () => {
@@ -30,11 +30,11 @@ function Cell({ x, y, value, increaseValue, fill }: CellProps) {
         clearTimeout(timer);
       };
     }
-  }, [value, fill])
+  }, [value, fill]);
   
   return (
     <div
-      style={{...(fill && { backgroundColor })}}
+      style={{ ...(fill && { backgroundColor }) }}
       onClick={increaseCellValue}
       className="cell"
     >{value ? value : ""}</div>

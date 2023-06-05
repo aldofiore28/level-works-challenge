@@ -1,4 +1,4 @@
-import { useCallback, useReducer } from "react";
+import { useReducer } from "react";
 import "./App.css";
 import Cell from "./Cell.tsx";
 import { gridReducer } from "./reducer.ts";
@@ -21,12 +21,12 @@ function App() {
     buildInitialState
   );
   
-  const increaseCellValue = useCallback((x: number, y: number) => {
+  const increaseCellValue = (x: number, y: number) => {
     dispatch({
       type: "INCREMENT",
       payload: { x, y }
     });
-  }, []);
+  };
   
   return (
     <>

@@ -26,16 +26,16 @@ export function gridReducer(state: State, action: Actions) {
             newToFill.push(`${rowIndex}-${columnIndex}`);
             return value + 1;
           }
-
+          
           return value;
         })
       );
-
+      
       return {
         ...state,
         grid: newGrid,
         toFill: newToFill,
-      }
+      };
     default:
       return state;
   }
