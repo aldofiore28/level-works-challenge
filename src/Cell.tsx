@@ -1,24 +1,40 @@
 import "./Cell.css";
+import { useEffect, useState } from "react";
 
 type CellProps = {
   x: number;
   y: number;
   value: number;
   increaseValue: (x: number, y: number) => void;
-  toFill: string[];
   fill: boolean;
 }
 
-function Cell({ x, y, value, increaseValue, fill, toFill }: CellProps) {
+function Cell({ x, y, value, increaseValue, fill }: CellProps) {
+  const [backgroundColor, setBackgroundColor] = useState<string>('');
   const increaseCellValue = () => {
     increaseValue(x, y);
   };
   
-  const style = toFill.length && fill ? { backgroundColor: "yellow" } : {};
+  useEffect(() => {
+    let ignore = false;
+    
+    if (fill && !ignore) {
+      setBackgroundColor('yellow');
+      
+      const timer = setTimeout(() => {
+        setBackgroundColor('');
+      }, 1000);
+      
+      return () => {
+        ignore = true;
+        clearTimeout(timer);
+      };
+    }
+  }, [value, fill])
   
   return (
     <div
-      style={{ ...style }}
+      style={{...(fill && { backgroundColor })}}
       onClick={increaseCellValue}
       className="cell"
     >{value ? value : ""}</div>

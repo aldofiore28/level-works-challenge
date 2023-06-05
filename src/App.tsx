@@ -1,9 +1,10 @@
-import { useReducer } from "react";
+import { useCallback, useReducer } from "react";
 import "./App.css";
 import Cell from "./Cell.tsx";
 import { gridReducer } from "./reducer.ts";
 
 function buildInitialState() {
+  console.log('calling');
   return {
     grid: buildInitialGrid(),
     toFill: [],
@@ -17,15 +18,16 @@ function buildInitialGrid(rows: number = 50, columns: number = 50): number[][] {
 function App() {
   const [state, dispatch] = useReducer(
     gridReducer,
-    buildInitialState()
+    {},
+    buildInitialState
   );
   
-  const increaseCellValue = (x: number, y: number) => {
+  const increaseCellValue = useCallback((x: number, y: number) => {
     dispatch({
       type: "INCREMENT",
       payload: { x, y }
     });
-  };
+  }, []);
   
   return (
     <>
@@ -37,8 +39,7 @@ function App() {
               x={x}
               y={y}
               value={value}
-              toFill={state.toFill}
-              fill={state.toFill.includes(`${x}-${y}`)}
+              fill={!!state.toFill.length && state.toFill.includes(`${x}-${y}`)}
               increaseValue={increaseCellValue}/>
           )}
         </div>
