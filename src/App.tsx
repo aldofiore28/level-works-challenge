@@ -4,7 +4,6 @@ import Cell from "./Cell.tsx";
 import { gridReducer } from "./reducer.ts";
 
 function buildInitialState() {
-  console.log('calling');
   return {
     grid: buildInitialGrid(),
     toFill: [],
