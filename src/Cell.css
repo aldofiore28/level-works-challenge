@@ -4,3 +4,7 @@
     border: 1px solid black;
     text-align: center;
 }
+
+.cell:hover {
+    cursor: pointer;
+}

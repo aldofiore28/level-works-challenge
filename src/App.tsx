@@ -1,7 +1,8 @@
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import "./App.css";
 import Cell from "./Cell.tsx";
 import { gridReducer } from "./reducer.ts";
+import { isFibonacciGrid } from "./util.ts";
 
 function buildInitialState() {
   return {
@@ -20,6 +21,23 @@ function App() {
     {},
     buildInitialState
   );
+  
+  useEffect(() => {
+    const checkFibonacciSequence = async () => {
+      try {
+        const result = isFibonacciGrid(state.grid);
+        console.log("Fibonacci sequence check result:", result);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    
+    const timer = setTimeout(checkFibonacciSequence, 500);
+    
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [state]);
   
   const increaseCellValue = (x: number, y: number) => {
     dispatch({
