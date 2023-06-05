@@ -1,19 +1,8 @@
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useCallback } from "react";
 import "./App.css";
 import Cell from "./Cell.tsx";
 import { gridReducer } from "./reducer.ts";
-import { isFibonacciGrid } from "./util.ts";
-
-function buildInitialState() {
-  return {
-    grid: buildInitialGrid(),
-    toFill: [],
-  };
-}
-
-function buildInitialGrid(rows: number = 50, columns: number = 50): number[][] {
-  return new Array(rows).fill(new Array(columns).fill(0));
-}
+import { buildInitialState, checkForFibonacciSequences } from "./util.ts";
 
 function App() {
   const [state, dispatch] = useReducer(
@@ -22,29 +11,35 @@ function App() {
     buildInitialState
   );
   
+  const increaseCellValue = useCallback((x: number, y: number) => {
+    dispatch({
+      type: "INCREMENT",
+      payload: { x, y },
+    });
+  }, [dispatch]);
+  
   useEffect(() => {
     const checkFibonacciSequence = async () => {
       try {
-        const result = isFibonacciGrid(state.grid);
+        const result = checkForFibonacciSequences(state.grid);
+        dispatch({
+          type: "FIBONACCI",
+          payload: {
+            toFillFibonacci: result
+          }
+        });
         console.log("Fibonacci sequence check result:", result);
       } catch (error) {
         console.error(error);
       }
     };
     
-    const timer = setTimeout(checkFibonacciSequence, 500);
+    const timer = setTimeout(checkFibonacciSequence, 1000);
     
     return () => {
       clearTimeout(timer);
     };
-  }, [state]);
-  
-  const increaseCellValue = (x: number, y: number) => {
-    dispatch({
-      type: "INCREMENT",
-      payload: { x, y }
-    });
-  };
+  }, [state.grid, increaseCellValue]);
   
   return (
     <>

@@ -1,6 +1,7 @@
 export type State = {
   grid: number[][];
   toFill: string[];
+  toFillFibonacci: string[];
 };
 
 type Action<Type extends string, T> = {
@@ -9,7 +10,8 @@ type Action<Type extends string, T> = {
 }
 
 type IncrementAction = Action<"INCREMENT", { x: number, y: number }>;
-type Actions = IncrementAction;
+type FibonacciAction = Action<"FIBONACCI", { toFillFibonacci: string[] }>
+type Actions = IncrementAction | FibonacciAction;
 
 export function gridReducer(state: State, action: Actions) {
   switch (action.type) {
@@ -36,6 +38,13 @@ export function gridReducer(state: State, action: Actions) {
         grid: newGrid,
         toFill: newToFill,
       };
+    case "FIBONACCI":
+      const { toFillFibonacci } = action.payload;
+      
+      return {
+        ...state,
+        toFillFibonacci
+      }
     default:
       return state;
   }
