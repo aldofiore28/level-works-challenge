@@ -43,7 +43,6 @@ function App() {
     const checkFibonacciSequence = async () => {
       try {
         const result = checkForFibonacciSequences(state.grid);
-        console.log(result);
         dispatch({
           type: "COLOR_FIBONACCI",
           payload: {
