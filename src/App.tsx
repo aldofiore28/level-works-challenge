@@ -18,6 +18,21 @@ function App() {
     });
   }, [dispatch]);
   
+  const addToResetQueue = useCallback((x: number, y: number) => {
+    dispatch({
+      type: "RESET",
+      payload: { x, y },
+    })
+  }, [dispatch]);
+  
+  const resetGrid = useCallback((queue: string[]) => {
+    console.log('here');
+    dispatch({
+      type: "RESET_GRID",
+      payload: { queue }
+    })
+  }, [dispatch]);
+  
   useEffect(() => {
     const checkFibonacciSequence = async () => {
       try {
@@ -28,7 +43,6 @@ function App() {
             toFillFibonacci: result
           }
         });
-        console.log("Fibonacci sequence check result:", result);
       } catch (error) {
         console.error(error);
       }
@@ -39,7 +53,13 @@ function App() {
     return () => {
       clearTimeout(timer);
     };
-  }, [state.grid, increaseCellValue]);
+  }, [state.grid, increaseCellValue, addToResetQueue]);
+  
+  useEffect(() => {
+    if (state.resetQueue.length !== 0 && state.resetQueue.length === state.toFillFibonacci.length) {
+      resetGrid(state.resetQueue);
+    }
+  }, [resetGrid, state.resetQueue, state.toFillFibonacci.length]);
   
   return (
     <>
@@ -53,7 +73,9 @@ function App() {
               value={value}
               toFill={state.toFill}
               toFillFibonacci={state.toFillFibonacci}
-              increaseValue={increaseCellValue}/>
+              increaseValue={increaseCellValue}
+              addToResetQueue={addToResetQueue}
+            />
           )}
         </div>
       )}
