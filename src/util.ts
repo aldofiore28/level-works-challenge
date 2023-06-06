@@ -84,6 +84,8 @@ export function checkForFibonacciSequences(grid: number[][]) {
   const flatGrid = grid.flat();
   const sequences: string[] = [];
   
+  // the flatGrid.length - 4 skips the scenarios when the section of the grid
+  // won't have 5 items
   for (let i = 0; i < (flatGrid.length - 4); i++) {
     const gridSection = flatGrid.slice(i, i + 5);
     
