@@ -55,6 +55,7 @@ export function checkIfSequenceIsFibonacci(sequence: number[]) {
     if (nextFibonacci !== sequence[i]) {
       return false;
     }
+    
     a = b;
     b = nextFibonacci;
   }
@@ -71,11 +72,7 @@ export function getGridCoordinates(index: number, constraint = MAX_FIBONACCI_SEQ
       (index + i) % COLUMN_MAXIMUM :
       0;
     
-    const coordinates = `${row}-${column}`;
-    
-    if (!sequence.includes(coordinates)) {
-      sequence.push(`${row}-${column}`);
-    }
+    sequence.push(`${row}-${column}`);
   }
   
   return sequence;
