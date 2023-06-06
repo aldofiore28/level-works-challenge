@@ -17,6 +17,8 @@ export function buildInitialGrid(rows = ROW_MAXIMUM, columns = COLUMN_MAXIMUM): 
   );
 }
 
+// A number is Fibonacci if and only if one or both of (5*n2 + 4) or (5*n2 – 4) is a perfect square
+// https://en.wikipedia.org/wiki/Fibonacci_sequence#Recognizing_Fibonacci_numbers
 export function isPerfectSquare(num: number) {
   const sqrt = Math.sqrt(num);
   return sqrt === Math.floor(sqrt);
