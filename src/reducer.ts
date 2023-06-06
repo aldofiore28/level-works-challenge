@@ -15,15 +15,13 @@ type Actions = IncrementAction | FibonacciAction;
 
 export function gridReducer(state: State, action: Actions) {
   switch (action.type) {
-    case "INCREMENT":
-      const { x, y } = action.payload;
-      
+    case "INCREMENT": {
       const newToFill: string[] = [];
       const newGrid = state.grid.map((row, rowIndex) =>
         row.map((value, columnIndex) => {
           // update the value only if you are in the selected row if you are
           // looping through another row but you are in the correct column
-          if (columnIndex === y || rowIndex === x) {
+          if (columnIndex === action.payload.y || rowIndex === action.payload.x) {
             // keep track of what needs to be filled yellow
             newToFill.push(`${rowIndex}-${columnIndex}`);
             return value + 1;
@@ -38,12 +36,11 @@ export function gridReducer(state: State, action: Actions) {
         grid: newGrid,
         toFill: newToFill,
       };
+    }
     case "FIBONACCI":
-      const { toFillFibonacci } = action.payload;
-      
       return {
         ...state,
-        toFillFibonacci
+        toFillFibonacci: action.payload.toFillFibonacci
       }
     default:
       return state;

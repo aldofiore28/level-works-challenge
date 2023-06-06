@@ -6,7 +6,7 @@ export function buildInitialState() {
   };
 }
 
-export function buildInitialGrid(rows: number = 5, columns: number = 5): number[][] {
+export function buildInitialGrid(rows = 50, columns = 50): number[][] {
   return new Array(rows).fill(new Array(columns).fill(0));
 }
 
@@ -46,7 +46,7 @@ function checkIfSequenceIsFibonacci(sequence: number[]) {
   return true;
 }
 
-export function getGridCoordinates(index: number, constraint: number = 5) {
+export function getGridCoordinates(index: number, constraint = 5) {
   const sequence: string[] = [];
   
   for (let i = 0; i < constraint; i++) {
@@ -60,7 +60,7 @@ export function getGridCoordinates(index: number, constraint: number = 5) {
 
 export function checkForFibonacciSequences(grid: number[][]) {
   const flatGrid = grid.flat();
-  let sequences: string[] = [];
+  const sequences: string[] = [];
   
   for (let i = 0; i < (flatGrid.length - 4); i++) {
     const gridSection = flatGrid.slice(i, i + 5);
