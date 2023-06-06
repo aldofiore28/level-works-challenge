@@ -12,35 +12,44 @@ export function buildInitialState() {
 }
 
 export function buildInitialGrid(rows = ROW_MAXIMUM, columns = COLUMN_MAXIMUM): number[][] {
-  return new Array(rows).fill(new Array(columns).fill(0));
+  return Array.from({ length: rows}, () =>
+    Array.from({ length: columns}, () => 0)
+  );
 }
 
-function isPerfectSquare(num: number) {
+export function isPerfectSquare(num: number) {
   const sqrt = Math.sqrt(num);
   return sqrt === Math.floor(sqrt);
 }
 
-function isFibonacciNumber(num: number) {
+export function isFibonacciNumber(num: number) {
   // Specific to this application. We use 0 as the default so we are not counting it here.
   if (num === 0) return false;
   return isPerfectSquare(5 * num * num + 4) || isPerfectSquare(5 * num * num - 4);
 }
 
-function checkIfSequenceIsFibonacci(sequence: number[]) {
+export function adjustFibonacciStart(sequence: number[], a = 0, b = 1) {
   const start = sequence[0];
-  
-  let a = 0;
-  let b = 1;
-  
-  // Adjust the starting point of the Fibonacci sequence
+  const checkForSecondOne = sequence[1];
   while (b < start) {
     const temp = a + b;
     a = b;
     b = temp;
   }
   
-  for (let i = 1; i < 5; i++) {
+  if (start === 1 && checkForSecondOne !== 1) {
+    return { a: 1, b: 1 };
+  }
+  
+  return { a, b };
+}
+
+export function checkIfSequenceIsFibonacci(sequence: number[]) {
+  let { a, b } = adjustFibonacciStart(sequence);
+  
+  for (let i = 1; i < MAX_FIBONACCI_SEQUENCE; i++) {
     const nextFibonacci = a + b;
+    
     if (nextFibonacci !== sequence[i]) {
       return false;
     }
@@ -60,7 +69,11 @@ export function getGridCoordinates(index: number, constraint = MAX_FIBONACCI_SEQ
       (index + i) % COLUMN_MAXIMUM :
       0;
     
-    sequence.push(`${row}-${column}`);
+    const coordinates = `${row}-${column}`;
+    
+    if (!sequence.includes(coordinates)) {
+      sequence.push(`${row}-${column}`);
+    }
   }
   
   return sequence;
@@ -81,5 +94,5 @@ export function checkForFibonacciSequences(grid: number[][]) {
     }
   }
   
-  return sequences;
+  return [...new Set(sequences)];
 }

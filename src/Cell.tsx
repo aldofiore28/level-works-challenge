@@ -7,11 +7,12 @@ type CellProps = {
   value: number;
   increaseValue: (x: number, y: number) => void;
   addToResetQueue: (x: number, y: number) => void;
+  resetToFill: () => void;
   toFill: string[];
   toFillFibonacci: string[];
 }
 
-function Cell({ x, y, value, increaseValue, toFill, toFillFibonacci, addToResetQueue }: CellProps) {
+function Cell({ x, y, value, increaseValue, toFill, toFillFibonacci, addToResetQueue, resetToFill }: CellProps) {
   const [backgroundColor, setBackgroundColor] = useState<string>("");
   const fillGreen = !!toFillFibonacci.length && toFillFibonacci.includes(`${x}-${y}`);
   const fillYellow = !!toFill.length && toFill.includes(`${x}-${y}`);
@@ -25,23 +26,27 @@ function Cell({ x, y, value, increaseValue, toFill, toFillFibonacci, addToResetQ
   
   useEffect(() => {
     let ignore = false;
-
+    
     if (fill && !ignore) {
       setBackgroundColor(fillColor);
       const timer = setTimeout(() => {
-        setBackgroundColor("");
-        
         if (fillGreen) {
           addToResetQueue(x, y);
         }
+        
+        if (fillYellow) {
+          resetToFill();
+        }
+        
+        setBackgroundColor("");
       }, 1000);
-
+      
       return () => {
         ignore = true;
         clearTimeout(timer);
       };
     }
-  }, [value, fill, fillColor, x, y, addToResetQueue, fillGreen]);
+  }, [value, fill, fillColor, x, y, addToResetQueue, fillGreen, fillYellow, resetToFill]);
   
   return (
     <div

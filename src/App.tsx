@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useCallback } from "react";
+import { useCallback, useEffect, useReducer } from "react";
 import "./App.css";
 import Cell from "./Cell.tsx";
 import { gridReducer } from "./reducer.ts";
@@ -22,21 +22,28 @@ function App() {
     dispatch({
       type: "RESET",
       payload: { x, y },
-    })
+    });
   }, [dispatch]);
   
   const resetGrid = useCallback((queue: string[]) => {
-    console.log('here');
     dispatch({
       type: "RESET_GRID",
       payload: { queue }
-    })
+    });
+  }, [dispatch]);
+  
+  const resetToFill = useCallback(() => {
+    dispatch({
+      type: "RESET_TO_FILL",
+      payload: {}
+    });
   }, [dispatch]);
   
   useEffect(() => {
     const checkFibonacciSequence = async () => {
       try {
         const result = checkForFibonacciSequences(state.grid);
+        console.log(result);
         dispatch({
           type: "COLOR_FIBONACCI",
           payload: {
@@ -56,7 +63,10 @@ function App() {
   }, [state.grid, increaseCellValue, addToResetQueue]);
   
   useEffect(() => {
-    if (state.resetQueue.length !== 0 && state.resetQueue.length === state.toFillFibonacci.length) {
+    if (
+      state.resetQueue.length !== 0 &&
+      state.resetQueue.length === state.toFillFibonacci.length
+    ) {
       resetGrid(state.resetQueue);
     }
   }, [resetGrid, state.resetQueue, state.toFillFibonacci.length]);
@@ -75,6 +85,7 @@ function App() {
               toFillFibonacci={state.toFillFibonacci}
               increaseValue={increaseCellValue}
               addToResetQueue={addToResetQueue}
+              resetToFill={resetToFill}
             />
           )}
         </div>

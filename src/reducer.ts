@@ -14,7 +14,8 @@ type IncrementAction = Action<"INCREMENT", { x: number, y: number }>;
 type FibonacciAction = Action<"COLOR_FIBONACCI", { toFillFibonacci: string[] }>
 type ResetAction = Action<"RESET", { x: number, y: number }>;
 type ResetQueueAction = Action<"RESET_GRID", { queue: string[] }>;
-type Actions = IncrementAction | FibonacciAction | ResetAction | ResetQueueAction;
+type ResetToFillAction = Action<"RESET_TO_FILL", Record<string, never>>;
+type Actions = IncrementAction | FibonacciAction | ResetAction | ResetQueueAction | ResetToFillAction;
 
 export function gridReducer(state: State, action: Actions) {
   switch (action.type) {
@@ -50,16 +51,13 @@ export function gridReducer(state: State, action: Actions) {
       return {
         ...state,
         resetQueue: [...state.resetQueue, `${action.payload.x}-${action.payload.y}`]
-      }
+      };
     }
     case "RESET_GRID": {
       const updatedGrid = [...state.grid.map(row => [...row])];
       
       for (const coordinate of state.resetQueue) {
-        // Split the coordinate to extract x and y values
-        const [x, y] = coordinate.split('-');
-        
-        // Convert x and y values to integers
+        const [x, y] = coordinate.split("-");
         const rowIndex = parseInt(x);
         const columnIndex = parseInt(y);
         
@@ -70,7 +68,6 @@ export function gridReducer(state: State, action: Actions) {
           columnIndex >= 0 &&
           columnIndex < updatedGrid[rowIndex].length
         ) {
-          // Update the value in the updated grid at the specified position
           updatedGrid[rowIndex][columnIndex] = 0;
         }
       }
@@ -80,7 +77,13 @@ export function gridReducer(state: State, action: Actions) {
         grid: updatedGrid,
         resetQueue: [],
         toFillFibonacci: []
-      }
+      };
+    }
+    case "RESET_TO_FILL": {
+      return state.toFill.length ? {
+        ...state,
+        toFill: []
+      } : state;
     }
     default:
       return state;
