@@ -1,3 +1,7 @@
+const ROW_MAXIMUM = 5;
+const COLUMN_MAXIMUM = 5;
+const MAX_FIBONACCI_SEQUENCE = 5;
+
 export function buildInitialState() {
   return {
     grid: buildInitialGrid(),
@@ -6,7 +10,7 @@ export function buildInitialState() {
   };
 }
 
-export function buildInitialGrid(rows = 50, columns = 50): number[][] {
+export function buildInitialGrid(rows = ROW_MAXIMUM, columns = COLUMN_MAXIMUM): number[][] {
   return new Array(rows).fill(new Array(columns).fill(0));
 }
 
@@ -46,12 +50,15 @@ function checkIfSequenceIsFibonacci(sequence: number[]) {
   return true;
 }
 
-export function getGridCoordinates(index: number, constraint = 5) {
+export function getGridCoordinates(index: number, constraint = MAX_FIBONACCI_SEQUENCE) {
   const sequence: string[] = [];
   
   for (let i = 0; i < constraint; i++) {
-    const row = Math.floor(index / 5);
-    const column = (i + index) % 5;
+    const row = Math.floor((index + i) / ROW_MAXIMUM);
+    const column = (index + i) % COLUMN_MAXIMUM !== 0 ?
+      (index + i) % COLUMN_MAXIMUM :
+      0;
+    
     sequence.push(`${row}-${column}`);
   }
   
@@ -66,6 +73,7 @@ export function checkForFibonacciSequences(grid: number[][]) {
     const gridSection = flatGrid.slice(i, i + 5);
     
     if (isFibonacciNumber(gridSection[0])) {
+      // not inline to avoid a computation
       if (checkIfSequenceIsFibonacci(gridSection)) {
         sequences.push(...getGridCoordinates(i));
       }

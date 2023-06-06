@@ -6,31 +6,36 @@ type CellProps = {
   y: number;
   value: number;
   increaseValue: (x: number, y: number) => void;
-  fill: boolean;
+  toFill: string[];
+  toFillFibonacci: string[];
 }
 
-function Cell({ x, y, value, increaseValue, fill }: CellProps) {
+function Cell({ x, y, value, increaseValue, toFill, toFillFibonacci }: CellProps) {
   const [backgroundColor, setBackgroundColor] = useState<string>("");
+  const fillGreen = !!toFillFibonacci.length && toFillFibonacci.includes(`${x}-${y}`);
+  const fillYellow = !!toFill.length && toFill.includes(`${x}-${y}`);
+  const fillColor = fillGreen ? "green" : fillYellow ? "yellow" : "";
+  const fill = fillGreen || fillYellow;
+  
   const increaseCellValue = () => {
     increaseValue(x, y);
   };
   
   useEffect(() => {
     let ignore = false;
-    
+
     if (fill && !ignore) {
-      setBackgroundColor("yellow");
-      
+      setBackgroundColor(fillColor);
       const timer = setTimeout(() => {
         setBackgroundColor("");
       }, 1000);
-      
+
       return () => {
         ignore = true;
         clearTimeout(timer);
       };
     }
-  }, [value, fill]);
+  }, [value, fill, fillColor]);
   
   return (
     <div

@@ -23,7 +23,7 @@ function App() {
       try {
         const result = checkForFibonacciSequences(state.grid);
         dispatch({
-          type: "FIBONACCI",
+          type: "COLOR_FIBONACCI",
           payload: {
             toFillFibonacci: result
           }
@@ -51,7 +51,8 @@ function App() {
               x={x}
               y={y}
               value={value}
-              fill={!!state.toFill.length && state.toFill.includes(`${x}-${y}`)}
+              toFill={state.toFill}
+              toFillFibonacci={state.toFillFibonacci}
               increaseValue={increaseCellValue}/>
           )}
         </div>

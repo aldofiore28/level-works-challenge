@@ -10,7 +10,7 @@ type Action<Type extends string, T> = {
 }
 
 type IncrementAction = Action<"INCREMENT", { x: number, y: number }>;
-type FibonacciAction = Action<"FIBONACCI", { toFillFibonacci: string[] }>
+type FibonacciAction = Action<"COLOR_FIBONACCI", { toFillFibonacci: string[] }>
 type Actions = IncrementAction | FibonacciAction;
 
 export function gridReducer(state: State, action: Actions) {
@@ -37,7 +37,7 @@ export function gridReducer(state: State, action: Actions) {
         toFill: newToFill,
       };
     }
-    case "FIBONACCI":
+    case "COLOR_FIBONACCI":
       return {
         ...state,
         toFillFibonacci: action.payload.toFillFibonacci
