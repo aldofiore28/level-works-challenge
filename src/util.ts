@@ -68,6 +68,8 @@ export function getGridCoordinates(index: number, constraint = MAX_FIBONACCI_SEQ
   
   for (let i = 0; i < constraint; i++) {
     const row = Math.floor((index + i) / ROW_MAXIMUM);
+    // if the index of the flatten grid + the loop index is a multiple of the column maximum,
+    // It means we are at the start of another row, so the column is 0
     const column = (index + i) % COLUMN_MAXIMUM !== 0 ?
       (index + i) % COLUMN_MAXIMUM :
       0;
