@@ -15,7 +15,7 @@ type FibonacciAction = Action<"COLOR_FIBONACCI", { toFillFibonacci: string[] }>
 type ResetAction = Action<"RESET", { x: number, y: number }>;
 type ResetQueueAction = Action<"RESET_GRID", { queue: string[] }>;
 type ResetToFillAction = Action<"RESET_TO_FILL", Record<string, never>>;
-type Actions = IncrementAction | FibonacciAction | ResetAction | ResetQueueAction | ResetToFillAction;
+export type Actions = IncrementAction | FibonacciAction | ResetAction | ResetQueueAction | ResetToFillAction;
 
 export function gridReducer(state: State, action: Actions) {
   switch (action.type) {
