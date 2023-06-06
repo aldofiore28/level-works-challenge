@@ -12,8 +12,8 @@ export function buildInitialState() {
 }
 
 export function buildInitialGrid(rows = ROW_MAXIMUM, columns = COLUMN_MAXIMUM): number[][] {
-  return Array.from({ length: rows}, () =>
-    Array.from({ length: columns}, () => 0)
+  return Array.from({ length: rows }, () =>
+    Array.from({ length: columns }, () => 0)
   );
 }
 
