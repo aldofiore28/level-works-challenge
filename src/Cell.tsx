@@ -25,9 +25,7 @@ function Cell({ x, y, value, increaseValue, toFill, toFillFibonacci, addToResetQ
   };
   
   useEffect(() => {
-    let ignore = false;
-    
-    if (fill && !ignore) {
+    if (fill) {
       setBackgroundColor(fillColor);
       const timer = setTimeout(() => {
         if (fillGreen) {
@@ -42,7 +40,6 @@ function Cell({ x, y, value, increaseValue, toFill, toFillFibonacci, addToResetQ
       }, 1000);
       
       return () => {
-        ignore = true;
         clearTimeout(timer);
       };
     }
