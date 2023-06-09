@@ -1,6 +1,6 @@
 const ROW_MAXIMUM = 50;
 const COLUMN_MAXIMUM = 50;
-const MAX_FIBONACCI_SEQUENCE = 5;
+const MAX_FIBONACCI_SEQUENCE = 6;
 
 export function buildInitialState() {
   return {
@@ -86,8 +86,8 @@ export function checkForFibonacciSequences(grid: number[][]) {
   
   // the flatGrid.length - 4 skips the scenarios when the section of the grid
   // won't have 5 items
-  for (let i = 0; i < (flatGrid.length - 4); i++) {
-    const gridSection = flatGrid.slice(i, i + 5);
+  for (let i = 0; i < (flatGrid.length - (MAX_FIBONACCI_SEQUENCE - 1)); i++) {
+    const gridSection = flatGrid.slice(i, i + MAX_FIBONACCI_SEQUENCE);
     
     if (isFibonacciNumber(gridSection[0])) {
       // not inline to avoid a computation
