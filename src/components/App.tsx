@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import "./App.css";
-import { MemoCell } from "./Cell.tsx";
+import { MemoedCell } from "./Cell.tsx";
 import { buildInitialGrid } from "../utils";
 
 export function App() {
@@ -25,7 +25,7 @@ export function App() {
       {grid.map((row, x) =>
         <div key={`${x}-row`} className="row">
           {row.map((value, y) =>
-            <MemoCell
+            <MemoedCell
               key={`${y}-column`}
               x={x}
               y={y}

@@ -39,4 +39,4 @@ export function Cell({ x, y, value, increaseValue }: CellProps) {
   );
 }
 
-export const MemoCell = memo(Cell);
+export const MemoedCell = memo(Cell);
