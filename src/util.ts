@@ -1,6 +1,6 @@
 const ROW_MAXIMUM = 50;
 const COLUMN_MAXIMUM = 50;
-const MAX_FIBONACCI_SEQUENCE = 6;
+const MAX_FIBONACCI_SEQUENCE = 5;
 
 export function buildInitialState() {
   return {
