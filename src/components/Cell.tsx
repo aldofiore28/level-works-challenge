@@ -5,10 +5,10 @@ type CellProps = {
   x: number;
   y: number;
   value: number;
-  increaseValue: (x: number, y: number) => void;
+  increaseRowAndColumnValues: (x: number, y: number) => void;
 }
 
-export function Cell({ x, y, value, increaseValue }: CellProps) {
+export function Cell({ x, y, value, increaseRowAndColumnValues }: CellProps) {
   const previousValue = useRef<number | null>(null);
   const [background, setBackground] = useState("");
   
@@ -32,7 +32,7 @@ export function Cell({ x, y, value, increaseValue }: CellProps) {
   
   return (
     <div
-      onClick={() => increaseValue(x, y)}
+      onClick={() => increaseRowAndColumnValues(x, y)}
       className={`cell`}
       style={{ backgroundColor: background }}
     >{value ? value : ""}</div>

@@ -6,7 +6,7 @@ import { buildInitialGrid } from "../utils";
 export function App() {
   const [grid, setGrid] = useState(() => buildInitialGrid());
   
-  const increaseCellValue = useCallback((x: number, y: number) => {
+  const increaseRowAndColumnValues = useCallback((x: number, y: number) => {
     setGrid((prevGrid) => {
       return prevGrid.map((row, rowIndex) => {
         if (rowIndex !== x) {
@@ -30,7 +30,7 @@ export function App() {
               x={x}
               y={y}
               value={value}
-              increaseValue={increaseCellValue}
+              increaseRowAndColumnValues={increaseRowAndColumnValues}
             />
           )}
         </div>
