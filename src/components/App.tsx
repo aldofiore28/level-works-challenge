@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useReducer } from "react";
 import "./App.css";
 import Cell from "./Cell.tsx";
-import { gridReducer } from "./reducer.ts";
-import { buildInitialState, checkForFibonacciSequences } from "./util.ts";
+import { gridReducer } from "../state";
+import { buildInitialState, checkForFibonacciSequences } from "../utils";
 
 function App() {
   const [state, dispatch] = useReducer(

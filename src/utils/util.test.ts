@@ -6,7 +6,7 @@ import {
   getGridCoordinates,
   isFibonacciNumber,
   isPerfectSquare
-} from "./util";
+} from "./util.ts";
 
 describe("util", () => {
   describe("isPerfectSquare", () => {
