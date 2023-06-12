@@ -43,6 +43,7 @@ function App() {
     const checkFibonacciSequence = async () => {
       try {
         const result = checkForFibonacciSequences(state.grid);
+        console.log("result", result);
         dispatch({
           type: "COLOR_FIBONACCI",
           payload: {
@@ -54,11 +55,7 @@ function App() {
       }
     };
     
-    const timer = setTimeout(checkFibonacciSequence, 1000);
-    
-    return () => {
-      clearTimeout(timer);
-    };
+    checkFibonacciSequence();
   }, [state.grid, increaseCellValue, addToResetQueue]);
   
   useEffect(() => {
