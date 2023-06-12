@@ -1,7 +1,6 @@
 import { ROW_MAXIMUM, COLUMN_MAXIMUM, MAX_FIBONACCI_SEQUENCE } from "./";
 
 export function buildInitialGrid(rows = ROW_MAXIMUM, columns = COLUMN_MAXIMUM): number[][] {
-  console.log("running");
   return Array.from({ length: rows }, () =>
     Array.from({ length: columns }, () => 0)
   );

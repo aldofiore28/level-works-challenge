@@ -1,9 +1,9 @@
 import { useCallback, useState } from "react";
 import "./App.css";
-import Cell from "./Cell.tsx";
+import { MemoCell } from "./Cell.tsx";
 import { buildInitialGrid } from "../utils";
 
-function App() {
+export function App() {
   const [grid, setGrid] = useState(() => buildInitialGrid());
   
   const increaseCellValue = useCallback((x: number, y: number) => {
@@ -25,7 +25,7 @@ function App() {
       {grid.map((row, x) =>
         <div key={`${x}-row`} className="row">
           {row.map((value, y) =>
-            <Cell
+            <MemoCell
               key={`${y}-column`}
               x={x}
               y={y}
@@ -38,5 +38,3 @@ function App() {
     </>
   );
 }
-
-export default App;

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, memo } from "react";
 import "./Cell.css";
 
 type CellProps = {
@@ -8,7 +8,7 @@ type CellProps = {
   increaseValue: (x: number, y: number) => void;
 }
 
-function Cell({ x, y, value, increaseValue }: CellProps) {
+export function Cell({ x, y, value, increaseValue }: CellProps) {
   const previousValue = useRef<number | null>(null);
   const [background, setBackground] = useState("");
   
@@ -39,4 +39,4 @@ function Cell({ x, y, value, increaseValue }: CellProps) {
   );
 }
 
-export default Cell;
+export const MemoCell = memo(Cell);
