@@ -1,75 +1,28 @@
-import { useCallback, useEffect, useReducer } from "react";
+import { useCallback, useState } from "react";
 import "./App.css";
 import Cell from "./Cell.tsx";
-import { gridReducer } from "../state";
-import { buildInitialState, checkForFibonacciSequences } from "../utils";
+import { buildInitialGrid } from "../utils";
 
 function App() {
-  const [state, dispatch] = useReducer(
-    gridReducer,
-    {},
-    buildInitialState
-  );
+  const [grid, setGrid] = useState(() => buildInitialGrid());
   
   const increaseCellValue = useCallback((x: number, y: number) => {
-    dispatch({
-      type: "INCREMENT",
-      payload: { x, y },
+    setGrid((prevGrid) => {
+      return prevGrid.map((row, rowIndex) => {
+        if (rowIndex !== x) {
+          const newRow = [...row];
+          newRow[y] = newRow[y] + 1;
+          return newRow;
+        }
+        
+        return row.map(value => value + 1);
+      });
     });
-  }, [dispatch]);
-  
-  const addToResetQueue = useCallback((x: number, y: number) => {
-    dispatch({
-      type: "RESET",
-      payload: { x, y },
-    });
-  }, [dispatch]);
-  
-  const resetGrid = useCallback((queue: string[]) => {
-    dispatch({
-      type: "RESET_GRID",
-      payload: { queue }
-    });
-  }, [dispatch]);
-  
-  const resetToFill = useCallback(() => {
-    dispatch({
-      type: "RESET_TO_FILL",
-      payload: {}
-    });
-  }, [dispatch]);
-  
-  useEffect(() => {
-    const checkFibonacciSequence = async () => {
-      try {
-        const result = checkForFibonacciSequences(state.grid);
-        console.log("result", result);
-        dispatch({
-          type: "COLOR_FIBONACCI",
-          payload: {
-            toFillFibonacci: result
-          }
-        });
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    
-    checkFibonacciSequence();
-  }, [state.grid, increaseCellValue, addToResetQueue]);
-  
-  useEffect(() => {
-    if (
-      state.resetQueue.length !== 0 &&
-      state.resetQueue.length === state.toFillFibonacci.length
-    ) {
-      resetGrid(state.resetQueue);
-    }
-  }, [resetGrid, state.resetQueue, state.toFillFibonacci.length]);
+  }, []);
   
   return (
     <>
-      {state.grid.map((row, x) =>
+      {grid.map((row, x) =>
         <div key={`${x}-row`} className="row">
           {row.map((value, y) =>
             <Cell
@@ -77,11 +30,7 @@ function App() {
               x={x}
               y={y}
               value={value}
-              toFill={state.toFill}
-              toFillFibonacci={state.toFillFibonacci}
               increaseValue={increaseCellValue}
-              addToResetQueue={addToResetQueue}
-              resetToFill={resetToFill}
             />
           )}
         </div>

@@ -1,15 +1,4 @@
-const ROW_MAXIMUM = 50;
-const COLUMN_MAXIMUM = 50;
-const MAX_FIBONACCI_SEQUENCE = 5;
-
-export function buildInitialState() {
-  return {
-    grid: buildInitialGrid(),
-    toFill: [],
-    toFillFibonacci: [],
-    resetQueue: [],
-  };
-}
+import { ROW_MAXIMUM, COLUMN_MAXIMUM, MAX_FIBONACCI_SEQUENCE } from "./";
 
 export function buildInitialGrid(rows = ROW_MAXIMUM, columns = COLUMN_MAXIMUM): number[][] {
   return Array.from({ length: rows }, () =>

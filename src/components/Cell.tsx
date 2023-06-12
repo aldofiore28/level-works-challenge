@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./Cell.css";
 
 type CellProps = {
@@ -6,50 +6,35 @@ type CellProps = {
   y: number;
   value: number;
   increaseValue: (x: number, y: number) => void;
-  addToResetQueue: (x: number, y: number) => void;
-  resetToFill: () => void;
-  toFill: string[];
-  toFillFibonacci: string[];
 }
 
-function Cell({ x, y, value, increaseValue, toFill, toFillFibonacci, addToResetQueue, resetToFill }: CellProps) {
-  const [backgroundColor, setBackgroundColor] = useState<string>("");
-  const fillGreen = !!toFillFibonacci.length && toFillFibonacci.includes(`${x}-${y}`);
-  const fillYellow = !!toFill.length && toFill.includes(`${x}-${y}`);
-  // Order matters here, first check for green, then yellow
-  const fillColor = fillGreen ? "green" : fillYellow ? "yellow" : "";
-  const fill = fillGreen || fillYellow;
-  
-  const increaseCellValue = () => {
-    increaseValue(x, y);
-  };
+function Cell({ x, y, value, increaseValue }: CellProps) {
+  const previousValue = useRef<number | null>(null);
+  const [background, setBackground] = useState("");
   
   useEffect(() => {
-    if (fill) {
-      setBackgroundColor(fillColor);
-      const timer = setTimeout(() => {
-        if (fillGreen) {
-          addToResetQueue(x, y);
-        }
-        
-        if (fillYellow) {
-          resetToFill();
-        }
-        
-        setBackgroundColor("");
-      }, 1000);
+    let timer: NodeJS.Timeout;
+    
+    if (previousValue.current !== null && previousValue.current !== value) {
+      setBackground("yellow");
       
-      return () => {
-        clearTimeout(timer);
-      };
+      timer = setTimeout(() => {
+        setBackground("");
+      }, 500);
     }
-  }, [value, fill, fillColor, x, y, addToResetQueue, fillGreen, fillYellow, resetToFill]);
+    
+    previousValue.current = value;
+    
+    return () => {
+      clearTimeout(timer);
+    }
+  }, [value]);
   
   return (
     <div
-      style={{ ...(fill && { backgroundColor }) }}
-      onClick={increaseCellValue}
-      className="cell"
+      onClick={() => increaseValue(x, y)}
+      className={`cell`}
+      style={{ backgroundColor: background }}
     >{value ? value : ""}</div>
   );
 }
